@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func connectClient() *mongo.Client {
+func ConnectClient() *mongo.Client {
 	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://devTeam:ecoders4@cluster0-grjmu.azure.mongodb.net/admin"))
 	if err != nil {
 		log.Fatal(err)
