@@ -17,7 +17,7 @@ func ConnectClient() *mongo.Client {
 	return client
 }
 
-func InsertPlantData(sensor structs.Sensor) {
+func InsertMoistureData(sensor structs.Sensor) {
 	client := ConnectClient()
 	//eventually user will be passed in this function as an ID
 	col := client.Database("User").Collection("SensorData")
@@ -28,7 +28,7 @@ func InsertPlantData(sensor structs.Sensor) {
 
 }
 
-func GetPlantData() {
+func GetMoistureData() {
 	//client := ConnectClient()
 }
 
