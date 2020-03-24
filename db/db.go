@@ -1,6 +1,8 @@
 package db
 
 import (
+	"context"
+	"github.com/AstroNik/WebCommon/structs"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -15,7 +17,20 @@ func ConnectClient() *mongo.Client {
 	return client
 }
 
-//func insertPlantData(sensor Sensor){
-//	client := connectClient()
-//
-//}
+func InsertPlantData(sensor structs.Sensor) {
+	client := ConnectClient()
+	col := client.Database("User").Collection("SensorData")
+	_, err := col.InsertOne(context.TODO(), sensor)
+	if err != nil {
+		log.Println("Cannot insert document")
+	}
+
+}
+
+func GetPlantData() {
+	//client := ConnectClient()
+}
+
+func GetUserData() {
+	//client := ConnectClient()
+}

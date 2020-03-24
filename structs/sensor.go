@@ -1,14 +1,15 @@
 package structs
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
 type Sensor struct {
-	ID         primitive.ObjectID `bson:"_id,omitempty"`
-	SensorName string             `json:"sensorName" bson:"sensorName"`
-	DateTime   string             `json:"dateTime" bson:"dateTime"`
-	SensorData SensorData         `json:"sensorData" bson:"sensorData"`
+	//ID         primitive.ObjectID `bson:"_id,omitempty"`
+	SensorId   int        `json:"sensorId" bson:"sensorId"`
+	SensorName string     `json:"sensorName" bson:"SensorName"`
+	DateTime   time.Time  `json:"dateTime" bson:"dateTime"`
+	SensorData SensorData `json:"sensorData" bson:"sensorData"`
 }
 
 type SensorData struct {
