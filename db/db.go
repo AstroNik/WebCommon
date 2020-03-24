@@ -19,6 +19,7 @@ func ConnectClient() *mongo.Client {
 
 func InsertPlantData(sensor structs.Sensor) {
 	client := ConnectClient()
+	//eventually user will be passed in this function as an ID
 	col := client.Database("User").Collection("SensorData")
 	_, err := col.InsertOne(context.TODO(), sensor)
 	if err != nil {
