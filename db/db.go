@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"github.com/AstroNik/WebCommon/structs"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -34,8 +33,11 @@ func GetMoistureData(customerId string) structs.Sensor {
 	client := ConnectClient()
 	col := client.Database(customerId).Collection("SensorData")
 
-	filter := bson.M{"$orderby": bson.M{"datetime": -1}}
-	err := col.FindOne(context.TODO(), filter).Decode(&sensorData)
+	filterOptions := options.Find()
+	filterOptions.SetSort(map[string]int{"datetime": -1})
+	filterOptions.SetLimit(1)
+
+	err := col.FindOne(context.TODO(), filterOptions).Decode(&sensorData)
 	if err != nil {
 		log.Println("Cannot retrieve document ERROR: ", err)
 	}
