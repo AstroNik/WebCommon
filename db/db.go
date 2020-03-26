@@ -3,10 +3,10 @@ package db
 import (
 	"context"
 	"github.com/AstroNik/WebCommon/structs"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
-	"time"
 )
 
 func ConnectClient() *mongo.Client {
@@ -21,20 +21,28 @@ func ConnectClient() *mongo.Client {
 func InsertMoistureData(customerId string, sensor structs.Sensor) {
 	log.Println("Sensor Data: ", sensor)
 	client := ConnectClient()
-	//eventually user will be passed in this function as an ID
 	col := client.Database(customerId).Collection("SensorData")
-	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
-	_, err := col.InsertOne(ctx, sensor)
+	_, err := col.InsertOne(context.TODO(), sensor)
 	if err != nil {
 		log.Println("Cannot insert document ERROR: ", err)
 	}
 
 }
 
-//func GetMoistureData() {
-//	client := ConnectClient()
-//
-//}
+func GetMoistureData(customerId string) structs.Sensor {
+	sensorData := structs.Sensor{}
+	client := ConnectClient()
+	col := client.Database(customerId).Collection("SensorData")
+
+	filter := bson.M{"datetime": bson.M{"$sort": -1, "limit": 1}}
+	err := col.FindOne(context.TODO(), filter).Decode(&sensorData)
+	if err != nil {
+		log.Println("Cannot retrieve document ERROR: ", err)
+	}
+	log.Printf("Document Found %+v\n", sensorData)
+
+	return sensorData
+}
 
 func GetUserData() {
 	//client := ConnectClient()
