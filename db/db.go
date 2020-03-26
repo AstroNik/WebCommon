@@ -24,7 +24,7 @@ func InsertMoistureData(customerId string, sensor structs.Sensor) {
 	//eventually user will be passed in this function as an ID
 	col := client.Database(customerId).Collection("SensorData")
 	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
-	_, err := col.InsertOne(ctx, &sensor)
+	_, err := col.InsertOne(ctx, sensor)
 	if err != nil {
 		log.Println("Cannot insert document ERROR: ", err)
 	}
