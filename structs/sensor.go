@@ -6,15 +6,15 @@ import (
 
 type Sensor struct {
 	//ID         primitive.ObjectID `bson:"_id,omitempty"`
-	SensorId   int        `json:"sensorId" bson:"sensorId"`
-	SensorName string     `json:"sensorName" bson:"SensorName"`
-	DateTime   time.Time  `json:"dateTime" bson:"dateTime"`
-	SensorData SensorData `json:"sensorData" bson:"sensorData"`
+	SensorId   int        `bson:"sensorId" json:"sensorId"`
+	SensorName string     `bson:"SensorName" json:"sensorName"`
+	DateTime   time.Time  `bson:"dateTime" json:"dateTime"`
+	SensorData SensorData `bson:"sensorData" json:"sensorData"`
 }
 
 type SensorData struct {
-	AirValue            int `json:"airValue" bson:"airValue"`
-	WaterValue          int `json:"waterValue" bson:"waterValue"`
-	SoilMoistureValue   int `json:"soilMoistureValue" bson:"soilMoistureValue"`
-	SoilMoisturePercent int `json:"soilMoisturePercent" bson:"soilMoisturePercent"`
+	AirValue            int `bson:"airValue" json:"airValue"`
+	WaterValue          int `bson:"waterValue" json:"waterValue"`
+	SoilMoistureValue   int `bson:"soilMoistureValue" json:"soilMoistureValue"`
+	SoilMoisturePercent int `bson:"soilMoisturePercent" json:"soilMoisturePercent"`
 }
