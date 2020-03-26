@@ -17,10 +17,10 @@ func ConnectClient() *mongo.Client {
 	return client
 }
 
-func InsertMoistureData(sensor structs.Sensor) {
+func InsertMoistureData(customerId string, sensor structs.Sensor) {
 	client := ConnectClient()
 	//eventually user will be passed in this function as an ID
-	col := client.Database("User").Collection("SensorData")
+	col := client.Database(customerId).Collection("SensorData")
 	_, err := col.InsertOne(context.TODO(), sensor)
 	if err != nil {
 		log.Println("Cannot insert document")
@@ -28,9 +28,10 @@ func InsertMoistureData(sensor structs.Sensor) {
 
 }
 
-func GetMoistureData() {
-	//client := ConnectClient()
-}
+//func GetMoistureData() {
+//	client := ConnectClient()
+//
+//}
 
 func GetUserData() {
 	//client := ConnectClient()
