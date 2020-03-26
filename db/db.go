@@ -24,10 +24,30 @@ func InsertMoistureData(customerId string, sensor structs.Sensor) {
 	col := client.Database(customerId).Collection("SensorData")
 	_, err := col.InsertOne(context.TODO(), &sensor)
 	if err != nil {
-		log.Println("Cannot insert document")
+		log.Println("Cannot insert document ERROR: ", err)
 	}
-
 }
+
+//func ConnectClient() *mongo.Client {
+//	clientOption := options.Client().ApplyURI("mongodb+srv://devTeam:ecoders4@cluster0-grjmu.azure.mongodb.net/admin")
+//	client, err := mongo.Connect(context.TODO(),clientOption)
+//	if err != nil {
+//		log.Println("mongo.Connect() ERROR: ", err)
+//	}
+//	return client
+//}
+//
+//func InsertMoistureData(customerId string, sensor structs.Sensor) {
+//	log.Println("Sensor Data: ", sensor)
+//	client := ConnectClient()
+//	//eventually user will be passed in this function as an ID
+//	col := client.Database(customerId).Collection("SensorData")
+//	_, err := col.InsertOne(context.TODO(), &sensor)
+//	if err != nil {
+//		log.Println("Cannot insert document ERROR: ", err)
+//	}
+//
+//}
 
 //func GetMoistureData() {
 //	client := ConnectClient()
