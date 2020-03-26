@@ -40,9 +40,12 @@ func GetMoistureData(customerId string) structs.Sensor {
 		},
 	}
 
-	err := col.FindOne(context.TODO(), filter).Decode(&sensorData)
+	cur, err := col.Find(context.TODO(), filter)
 	if err != nil {
 		log.Println("Cannot retrieve document ERROR: ", err)
+	}
+	for cur.Next(context.TODO()) {
+		cur.Decode(&sensorData)
 	}
 	log.Printf("Document Found %+v\n", sensorData)
 	return sensorData
