@@ -34,19 +34,28 @@ func GetMoistureData(customerId string) structs.Sensor {
 	client := ConnectClient()
 	col := client.Database(customerId).Collection("SensorData")
 
-	filter := bson.M{
-		"datetime": bson.M{
-			"$sort": -1,
-		},
-	}
+	filter := options.Find()
+	filter.SetLimit(1)
+	filter.SetSort(map[string]int{"datetime": -1})
 
-	cur, err := col.Find(context.TODO(), filter)
+	cur, err := col.Find(context.TODO(), bson.D{{}}, filter)
 	if err != nil {
 		log.Println("Cannot retrieve document ERROR: ", err)
 	}
+
 	for cur.Next(context.TODO()) {
-		cur.Decode(&sensorData)
+		err := cur.Decode(&sensorData)
+		if err != nil {
+			log.Println("Error decoding data ERROR: ", err)
+		}
 	}
+
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	cur.Close(context.TODO())
+
 	log.Printf("Document Found %+v\n", sensorData)
 	return sensorData
 }
