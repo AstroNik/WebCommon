@@ -35,7 +35,7 @@ func GetMoistureData(customerId string) structs.Sensor {
 	col := client.Database(customerId).Collection("SensorData")
 
 	filter := options.Find()
-	filter.SetSort(bson.M{"datetime": -1})
+	filter.SetSort(bson.M{"datetime": 1})
 	filter.SetLimit(1)
 
 	cur, err := col.Find(context.TODO(), bson.D{}, filter)
