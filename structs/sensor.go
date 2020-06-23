@@ -17,6 +17,7 @@ type Sensor struct {
 }
 
 type SensorData struct {
+	DeviceID            int `bson:"deviceId" json:"deviceId"`
 	AirValue            int `bson:"airValue" json:"airValue"`
 	WaterValue          int `bson:"waterValue" json:"waterValue"`
 	SoilMoistureValue   int `bson:"soilMoistureValue" json:"soilMoistureValue"`
