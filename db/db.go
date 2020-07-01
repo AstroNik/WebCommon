@@ -10,6 +10,7 @@ import (
 )
 
 func ConnectClient() *mongo.Client {
+	//TODO: replace pass/user with env var
 	clientOption := options.Client().ApplyURI("mongodb+srv://devTeam:ecoders4@cluster0-grjmu.azure.mongodb.net/admin")
 	client, err := mongo.Connect(context.TODO(), clientOption)
 	if err != nil {
@@ -60,6 +61,11 @@ func GetMoistureData(customerId string) structs.Sensor {
 	return sensorData
 }
 
-func GetUserData() {
-	//client := ConnectClient()
+func insertUser(user structs.User) {
+	client := ConnectClient()
+	col := client.Database(user.UID).Collection(user.UID)
+	_, err := col.InsertOne(context.TODO(), user)
+	if err != nil {
+		log.Println("Cannot insert document ERROR: ", err)
+	}
 }
