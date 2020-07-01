@@ -19,21 +19,20 @@ func ConnectClient() *mongo.Client {
 	return client
 }
 
-func InsertMoistureData(customerId string, sensor structs.Sensor) {
+func InsertMoistureData(uid string, sensor structs.Device) {
 	log.Println("Sensor Data: ", sensor)
 	client := ConnectClient()
-	col := client.Database(customerId).Collection("SensorData")
+	col := client.Database(uid).Collection("SensorData")
 	_, err := col.InsertOne(context.TODO(), sensor)
 	if err != nil {
 		log.Println("Cannot insert document ERROR: ", err)
 	}
-
 }
 
-func GetMoistureData(customerId string) structs.Sensor {
-	sensorData := structs.Sensor{}
+func GetMoistureData(uid string) structs.Device {
+	sensorData := structs.Device{}
 	client := ConnectClient()
-	col := client.Database(customerId).Collection("SensorData")
+	col := client.Database(uid).Collection("SensorData")
 
 	filter := options.Find()
 	filter.SetSort(bson.D{{"_id", -1}})
@@ -63,7 +62,7 @@ func GetMoistureData(customerId string) structs.Sensor {
 
 func InsertUser(user structs.User) {
 	client := ConnectClient()
-	col := client.Database(user.UID).Collection(user.UID)
+	col := client.Database(user.UID).Collection("User")
 	_, err := col.InsertOne(context.TODO(), user)
 	if err != nil {
 		log.Println("Cannot insert document ERROR: ", err)
