@@ -61,7 +61,7 @@ func GetMoistureData(customerId string) structs.Sensor {
 	return sensorData
 }
 
-func insertUser(user structs.User) {
+func InsertUser(user structs.User) {
 	client := ConnectClient()
 	col := client.Database(user.UID).Collection(user.UID)
 	_, err := col.InsertOne(context.TODO(), user)
