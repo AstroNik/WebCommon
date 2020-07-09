@@ -20,9 +20,9 @@ func ConnectClient() *mongo.Client {
 }
 
 func InsertMoistureData(uid string, sensor structs.Device) {
-	log.Println("Sensor Data: ", sensor)
+	log.Println("Device Data: ", sensor)
 	client := ConnectClient()
-	col := client.Database(uid).Collection("SensorData")
+	col := client.Database(uid).Collection("Device")
 	_, err := col.InsertOne(context.TODO(), sensor)
 	if err != nil {
 		log.Println("Cannot insert document ERROR: ", err)
@@ -30,9 +30,9 @@ func InsertMoistureData(uid string, sensor structs.Device) {
 }
 
 func GetMoistureData(uid string) structs.Device {
-	sensorData := structs.Device{}
+	deviceData := structs.Device{}
 	client := ConnectClient()
-	col := client.Database(uid).Collection("SensorData")
+	col := client.Database(uid).Collection("Device")
 
 	filter := options.Find()
 	filter.SetSort(bson.D{{"_id", -1}})
@@ -44,7 +44,7 @@ func GetMoistureData(uid string) structs.Device {
 	}
 
 	for cur.Next(context.TODO()) {
-		err := cur.Decode(&sensorData)
+		err := cur.Decode(&deviceData)
 		if err != nil {
 			log.Println("Error decoding data ERROR: ", err)
 		}
@@ -54,13 +54,13 @@ func GetMoistureData(uid string) structs.Device {
 		log.Fatal(err)
 	}
 
-	cur.Close(context.TODO())
+	_ = cur.Close(context.TODO())
 
-	log.Printf("Document Found %+v\n", sensorData)
-	return sensorData
+	log.Printf("Document Found %+v\n", deviceData)
+	return deviceData
 }
 
-func InsertUser(user structs.User) {
+func InsertUser(user structs.NewUser) {
 	client := ConnectClient()
 	col := client.Database(user.UID).Collection("User")
 	_, err := col.InsertOne(context.TODO(), user)
