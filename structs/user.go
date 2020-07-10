@@ -12,6 +12,5 @@ type NewUser struct {
 }
 
 type User struct {
-	UID   string `json:"uid" bson:"uid"`
-	Token string `json:"token" bson:"token"`
+	UID string `json:"uid" bson:"uid"`
 }
