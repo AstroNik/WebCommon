@@ -18,12 +18,12 @@ type Device struct {
 }
 
 type DeviceData struct {
-	UID                 string `bson:"uid" json:"uid"`
-	DeviceID            int    `bson:"deviceId" json:"deviceId"`
-	Battery             int    `json:"battery" bson:"battery"`
-	AirValue            int    `bson:"airValue" json:"airValue"`
-	WaterValue          int    `bson:"waterValue" json:"waterValue"`
-	SoilMoistureValue   int    `bson:"soilMoistureValue" json:"soilMoistureValue"`
-	SoilMoisturePercent int    `bson:"soilMoisturePercent" json:"soilMoisturePercent"`
-	Token               string `bson:"token" json:"token"`
+	UID string `bson:"uid" json:"uid"`
+	//DeviceID            int    `bson:"deviceId" json:"deviceId"`
+	//Battery             int    `json:"battery" bson:"battery"`
+	AirValue            int `bson:"airValue" json:"airValue"`
+	WaterValue          int `bson:"waterValue" json:"waterValue"`
+	SoilMoistureValue   int `bson:"soilMoistureValue" json:"soilMoistureValue"`
+	SoilMoisturePercent int `bson:"soilMoisturePercent" json:"soilMoisturePercent"`
+	//Token               string `bson:"token" json:"token"`
 }
