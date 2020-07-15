@@ -20,6 +20,7 @@ func ConnectClient() *mongo.Client {
 }
 
 func InsertMoistureData(uid string, sensor structs.Device) {
+	log.Println(uid)
 	log.Println("Device Data: ", sensor)
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
