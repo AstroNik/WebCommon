@@ -25,5 +25,4 @@ type DeviceData struct {
 	WaterValue          int    `bson:"waterValue" json:"waterValue"`
 	SoilMoistureValue   int    `bson:"soilMoistureValue" json:"soilMoistureValue"`
 	SoilMoisturePercent int    `bson:"soilMoisturePercent" json:"soilMoisturePercent"`
-	Token               string `bson:"token" json:"token"`
 }
