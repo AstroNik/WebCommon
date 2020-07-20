@@ -30,7 +30,7 @@ func InsertMoistureData(uid string, sensor structs.Device) {
 	}
 }
 
-func GetMoistureData(uid string) structs.Device {
+func GetMoistureData(uid string, deviceId int) structs.Device {
 	deviceData := structs.Device{}
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
@@ -39,7 +39,7 @@ func GetMoistureData(uid string) structs.Device {
 	filter.SetSort(bson.D{{"_id", -1}})
 	filter.SetLimit(1)
 
-	cur, err := col.Find(context.TODO(), bson.D{}, filter)
+	cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}}, filter)
 	if err != nil {
 		log.Println("Cannot retrieve document ERROR: ", err)
 	}
