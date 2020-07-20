@@ -35,27 +35,29 @@ func GetMoistureData(uid string, deviceId int) structs.Device {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	filter := options.Find()
+	filter := options.FindOne()
 	filter.SetSort(bson.D{{"_id", -1}})
-	filter.SetLimit(1)
+	//filter.SetLimit(1)
 
-	cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}}, filter)
-	if err != nil {
-		log.Println("Cannot retrieve document ERROR: ", err)
-	}
+	_ = col.FindOne(context.TODO(), bson.D{}, filter).Decode(&deviceData)
 
-	for cur.Next(context.TODO()) {
-		err := cur.Decode(&deviceData)
-		if err != nil {
-			log.Println("Error decoding data ERROR: ", err)
-		}
-	}
-
-	if err := cur.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	_ = cur.Close(context.TODO())
+	//cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}}, filter)
+	//if err != nil {
+	//	log.Println("Cannot retrieve document ERROR: ", err)
+	//}
+	//
+	//for cur.Next(context.TODO()) {
+	//	err := cur.Decode(&deviceData)
+	//	if err != nil {
+	//		log.Println("Error decoding data ERROR: ", err)
+	//	}
+	//}
+	//
+	//if err := cur.Err(); err != nil {
+	//	log.Fatal(err)
+	//}
+	//
+	//_ = cur.Close(context.TODO())
 
 	log.Printf("Document Found %+v\n", deviceData)
 	return deviceData
