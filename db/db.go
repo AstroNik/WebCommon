@@ -2,12 +2,12 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"github.com/AstroNik/WebCommon/structs"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
+	"reflect"
 )
 
 func ConnectClient() *mongo.Client {
@@ -62,14 +62,13 @@ func GetMoistureData(uid string) structs.Device {
 	return deviceData
 }
 
-func GetUnqiueDevices(uid string) []int {
-	var deviceIds []int
+func GetUnqiueDevices(uid string) {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	fmt.Println(col.Distinct(context.TODO(), "deviceId", &deviceIds))
-
-	return deviceIds
+	val, _ := col.Distinct(context.TODO(), "deviceId", bson.D{{}})
+	log.Println(reflect.TypeOf(val))
+	//return deviceData
 }
 
 func InsertUser(user structs.NewUser) {
