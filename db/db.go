@@ -61,7 +61,7 @@ func GetMoistureData(uid string, deviceId int) structs.Device {
 	return deviceData
 }
 
-func GetUnqiueDevices(uid string) []int32 {
+func GetUniqueDevices(uid string) []int32 {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
