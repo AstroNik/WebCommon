@@ -7,7 +7,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
-	"reflect"
 )
 
 func ConnectClient() *mongo.Client {
@@ -62,13 +61,17 @@ func GetMoistureData(uid string) structs.Device {
 	return deviceData
 }
 
-func GetUnqiueDevices(uid string) {
+func GetUnqiueDevices(uid string) []interface{} {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	val, _ := col.Distinct(context.TODO(), "deviceId", bson.D{{}})
-	log.Println(reflect.TypeOf(val))
-	//return deviceData
+	deviceIds, err := col.Distinct(context.TODO(), "deviceId", bson.D{{}})
+
+	if err != nil {
+		log.Println("Error decoding data ERROR: ", err)
+	}
+
+	return deviceIds
 }
 
 func InsertUser(user structs.NewUser) {
