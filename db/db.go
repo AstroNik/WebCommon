@@ -62,14 +62,14 @@ func GetMoistureData(uid string) structs.Device {
 	return deviceData
 }
 
-func GetMultipleDevices(uid string) { //[]structs.Device
-	//var deviceData []structs.Device
+func GetUnqiueDevices(uid string) []int {
+	var deviceIds []int
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	fmt.Println(col.Distinct(context.TODO(), "deviceId", bson.D{{}}))
+	fmt.Println(col.Distinct(context.TODO(), "deviceId", &deviceIds))
 
-	//return deviceData
+	return deviceIds
 }
 
 func InsertUser(user structs.NewUser) {
