@@ -61,7 +61,7 @@ func GetMoistureData(uid string, deviceId int) structs.Device {
 	return deviceData
 }
 
-func GetUnqiueDevices(uid string) []interface{} {
+func GetUnqiueDevices(uid string) []int {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -71,7 +71,13 @@ func GetUnqiueDevices(uid string) []interface{} {
 		log.Println("Error decoding data ERROR: ", err)
 	}
 
-	return deviceIds
+	convertedIds := make([]int, len(deviceIds))
+
+	for i := range deviceIds {
+		convertedIds[i] = deviceIds[i].(int)
+	}
+
+	return convertedIds
 }
 
 func InsertUser(user structs.NewUser) {
