@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"github.com/AstroNik/WebCommon/structs"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -59,6 +60,16 @@ func GetMoistureData(uid string) structs.Device {
 
 	log.Printf("Document Found %+v\n", deviceData)
 	return deviceData
+}
+
+func GetMultipleDevices(uid string) { //[]structs.Device
+	//var deviceData []structs.Device
+	client := ConnectClient()
+	col := client.Database(uid).Collection("Device")
+
+	fmt.Println(col.Distinct(context.TODO(), "deviceId", bson.D{{}}))
+
+	//return deviceData
 }
 
 func InsertUser(user structs.NewUser) {
