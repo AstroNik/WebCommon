@@ -39,7 +39,7 @@ func GetMoistureData(uid string, deviceId int) structs.Device {
 	filter.SetSort(bson.D{{"_id", -1}})
 	//filter.SetLimit(1)
 
-	_ = col.FindOne(context.TODO(), bson.D{}, filter).Decode(&deviceData)
+	_ = col.FindOne(context.TODO(), bson.D{{"deviceId", deviceId}}, filter).Decode(&deviceData)
 
 	//cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}}, filter)
 	//if err != nil {
