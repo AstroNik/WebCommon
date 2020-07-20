@@ -61,7 +61,7 @@ func GetMoistureData(uid string, deviceId int) structs.Device {
 	return deviceData
 }
 
-func GetUnqiueDevices(uid string) []int {
+func GetUnqiueDevices(uid string) []int32 {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -71,10 +71,10 @@ func GetUnqiueDevices(uid string) []int {
 		log.Println("Error decoding data ERROR: ", err)
 	}
 
-	convertedIds := make([]int, len(deviceIds))
+	convertedIds := make([]int32, len(deviceIds))
 
 	for i := range deviceIds {
-		convertedIds[i] = deviceIds[i].(int)
+		convertedIds[i] = deviceIds[i].(int32)
 	}
 
 	return convertedIds
