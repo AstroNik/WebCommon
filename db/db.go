@@ -30,34 +30,21 @@ func InsertMoistureData(uid string, sensor structs.Device) {
 	}
 }
 
-func GetMoistureData(uid string, deviceId int) structs.Device {
-	deviceData := structs.Device{}
+func GetMoistureData(uid string) []structs.Device {
+	var deviceData []structs.Device
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
 	filter := options.FindOne()
 	filter.SetSort(bson.D{{"_id", -1}})
-	//filter.SetLimit(1)
 
-	_ = col.FindOne(context.TODO(), bson.D{{"deviceId", deviceId}}, filter).Decode(&deviceData)
+	deviceIds := GetUniqueDevices(uid)
 
-	//cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}}, filter)
-	//if err != nil {
-	//	log.Println("Cannot retrieve document ERROR: ", err)
-	//}
-	//
-	//for cur.Next(context.TODO()) {
-	//	err := cur.Decode(&deviceData)
-	//	if err != nil {
-	//		log.Println("Error decoding data ERROR: ", err)
-	//	}
-	//}
-	//
-	//if err := cur.Err(); err != nil {
-	//	log.Fatal(err)
-	//}
-	//
-	//_ = cur.Close(context.TODO())
+	for i := range deviceIds {
+		tempData := structs.Device{}
+		_ = col.FindOne(context.TODO(), bson.D{{"deviceId", deviceIds[i]}}, filter).Decode(&tempData)
+		deviceData = append(deviceData, tempData)
+	}
 
 	log.Printf("Document Found %+v\n", deviceData)
 	return deviceData
