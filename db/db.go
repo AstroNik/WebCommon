@@ -74,7 +74,7 @@ func GetAllMoistureData(uid string, deviceId int) []structs.DSData {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	opts := options.Find().SetProjection(bson.D{{"dateTime", 1}, {"soilMoisturePercent", 1}})
+	opts := options.Find().SetProjection(bson.D{{"_id", 0}, {"dateTime", 1}, {"soilMoisturePercent", 1}})
 
 	filter := bson.D{
 		{"deviceId", deviceId},
