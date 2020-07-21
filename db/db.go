@@ -70,22 +70,26 @@ func GetUniqueDevices(uid string) []int32 {
 	return convertedIds
 }
 
-func GetAllMoistureData(uid string, deviceId int) []structs.Device {
+func GetAllMoistureData(uid string, deviceId int) []interface{} {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	optionsObj := options.Find().SetProjection(bson.D{{"dateTime", 1}, {"soilMoisturePercent", 1}})
+	opts := options.Find().SetProjection(bson.D{{"dateTime", 1}, {"soilMoisturePercent", 1}})
 
-	cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}}, optionsObj)
+	filter := bson.D{
+		{"deviceId", deviceId},
+	}
+
+	cur, err := col.Find(context.TODO(), filter, opts)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var allData []structs.Device
+	var allData []interface{}
 
 	for cur.Next(context.TODO()) {
-		data := structs.Device{}
+		var data interface{}
 
 		err := cur.Decode(&data)
 		if err != nil {
