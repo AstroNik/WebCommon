@@ -74,7 +74,9 @@ func GetAllMoistureData(uid string, deviceId int) []structs.Device {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}})
+	optionsObj := options.Find().SetProjection(bson.D{{"dateTime", 1}, {"soilMoisturePercent", 1}})
+
+	cur, err := col.Find(context.TODO(), bson.D{{"deviceId", deviceId}}, optionsObj)
 
 	if err != nil {
 		log.Fatal(err)
