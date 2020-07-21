@@ -26,3 +26,9 @@ type DeviceData struct {
 	SoilMoistureValue   int    `bson:"soilMoistureValue" json:"soilMoistureValue"`
 	SoilMoisturePercent int    `bson:"soilMoisturePercent" json:"soilMoisturePercent"`
 }
+
+type DSData struct {
+	ID                  primitive.ObjectID `bson:"_id,omitempty"`
+	DateTime            time.Time          `bson:"dateTime" json:"dateTime"`
+	SoilMoisturePercent int                `bson:"soilMoisturePercent" json:"soilMoisturePercent"`
+}

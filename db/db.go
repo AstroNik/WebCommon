@@ -70,7 +70,7 @@ func GetUniqueDevices(uid string) []int32 {
 	return convertedIds
 }
 
-func GetAllMoistureData(uid string, deviceId int) []interface{} {
+func GetAllMoistureData(uid string, deviceId int) []structs.DSData {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -86,10 +86,10 @@ func GetAllMoistureData(uid string, deviceId int) []interface{} {
 		log.Fatal(err)
 	}
 
-	var allData []interface{}
+	var allData []structs.DSData
 
 	for cur.Next(context.TODO()) {
-		var data interface{}
+		var data structs.DSData
 
 		err := cur.Decode(&data)
 		if err != nil {
