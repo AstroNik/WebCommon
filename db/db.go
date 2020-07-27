@@ -76,7 +76,7 @@ func GetAllMoistureData(uid string) []interface{} {
 
 	deviceIds := GetUniqueDevices(uid)
 
-	var slice = make([]interface{}, len(deviceIds))
+	var slice = make([]interface{}, 0)
 
 	for i := range slice {
 		var allData []structs.DSData
@@ -113,7 +113,7 @@ func GetAllMoistureData(uid string) []interface{} {
 		}
 
 		_ = cur.Close(context.TODO())
-		slice[i] = append(slice, allData)
+		slice = append(slice, allData)
 	}
 
 	fmt.Printf("Found multiple documents: %+v\n", slice)
