@@ -113,7 +113,7 @@ func GetAllMoistureData(uid string) []interface{} {
 		}
 
 		_ = cur.Close(context.TODO())
-		slice = append(slice, allData)
+		slice[i] = append(slice, allData)
 	}
 
 	fmt.Printf("Found multiple documents: %+v\n", slice)
