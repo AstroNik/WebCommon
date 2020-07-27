@@ -70,15 +70,17 @@ func GetUniqueDevices(uid string) []int32 {
 	return convertedIds
 }
 
-func GetAllMoistureData(uid string) [][]structs.DSData {
+func GetAllMoistureData(uid string) []interface{} {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
 	deviceIds := GetUniqueDevices(uid)
 
-	var allData [][]structs.DSData
+	var slice = make([]interface{}, len(deviceIds))
 
-	for i := range deviceIds {
+	for i := range slice {
+		var allData []structs.DSData
+
 		opts := options.Find().SetProjection(bson.D{
 			{"_id", 0},
 			{"deviceId", 1},
@@ -103,7 +105,7 @@ func GetAllMoistureData(uid string) [][]structs.DSData {
 			if err != nil {
 				log.Fatal(err)
 			}
-			allData[i] = append(allData[i], data)
+			allData = append(allData, data)
 		}
 
 		if err := cur.Err(); err != nil {
@@ -111,11 +113,12 @@ func GetAllMoistureData(uid string) [][]structs.DSData {
 		}
 
 		_ = cur.Close(context.TODO())
+		slice = append(slice, allData)
 	}
 
-	fmt.Printf("Found multiple documents: %+v\n", allData)
+	fmt.Printf("Found multiple documents: %+v\n", slice)
 
-	return allData
+	return slice
 }
 
 func InsertUser(user structs.NewUser) {
