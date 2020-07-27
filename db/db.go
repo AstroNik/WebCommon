@@ -76,9 +76,9 @@ func GetAllMoistureData(uid string) []interface{} {
 
 	deviceIds := GetUniqueDevices(uid)
 
-	var slice = make([]interface{}, len(deviceIds))
+	var slice = make([]interface{}, 0)
 
-	for i := range slice {
+	for i := range deviceIds {
 		var allData []structs.DSData
 
 		opts := options.Find().SetProjection(bson.D{
