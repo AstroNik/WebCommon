@@ -28,6 +28,7 @@ type DeviceData struct {
 }
 
 type DSData struct {
+	DeviceID            int       `bson:"deviceId" json:"deviceId"`
 	DateTime            time.Time `bson:"dateTime" json:"dateTime"`
 	SoilMoisturePercent int       `bson:"soilMoisturePercent" json:"soilMoisturePercent"`
 }
