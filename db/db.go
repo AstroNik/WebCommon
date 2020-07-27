@@ -70,46 +70,48 @@ func GetUniqueDevices(uid string) []int32 {
 	return convertedIds
 }
 
-func GetAllMoistureData(uid string, deviceId int) []structs.DSData {
+func GetAllMoistureData(uid string) [][]structs.DSData {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	opts := options.Find().SetProjection(bson.D{
-		{"_id", 0},
-		{"deviceId", 1},
-		{"dateTime", 1},
-		{"soilMoisturePercent", 1},
-	})
+	deviceIds := GetUniqueDevices(uid)
 
-	filter := bson.D{
-		{"deviceId", deviceId},
-	}
+	var allData [][]structs.DSData
 
-	cur, err := col.Find(context.TODO(), filter, opts)
+	for i := range deviceIds {
+		opts := options.Find().SetProjection(bson.D{
+			{"_id", 0},
+			{"deviceId", 1},
+			{"dateTime", 1},
+			{"soilMoisturePercent", 1},
+		})
 
-	if err != nil {
-		log.Fatal(err)
-	}
+		filter := bson.D{
+			{"deviceId", deviceIds[i]},
+		}
 
-	var allData []structs.DSData
+		cur, err := col.Find(context.TODO(), filter, opts)
 
-	for cur.Next(context.TODO()) {
-		var data structs.DSData
-
-		err := cur.Decode(&data)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		allData = append(allData, data)
+		for cur.Next(context.TODO()) {
+			var data structs.DSData
 
+			err := cur.Decode(&data)
+			if err != nil {
+				log.Fatal(err)
+			}
+			allData[i] = append(allData[i], data)
+		}
+
+		if err := cur.Err(); err != nil {
+			log.Fatal(err)
+		}
+
+		_ = cur.Close(context.TODO())
 	}
-
-	if err := cur.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-	_ = cur.Close(context.TODO())
 
 	fmt.Printf("Found multiple documents: %+v\n", allData)
 
