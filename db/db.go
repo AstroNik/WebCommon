@@ -102,8 +102,8 @@ func GetAllMoistureData(uid string) []interface{} {
 		filter := bson.D{
 			{"deviceId", deviceIds[i]},
 			{"dateTime", bson.M{
-				"$gt": DateBeginning(time.Now()),
-				"$lt": DateEnd(time.Now()),
+				"$gte": DateBeginning(time.Now()),
+				"$lt":  DateEnd(time.Now()),
 			}},
 		}
 
