@@ -152,8 +152,8 @@ func GetSpecificDayChartData(uid string, deviceId int, date time.Time) []structs
 	filter := bson.D{
 		{"deviceId", deviceId},
 		{"dateTime", bson.M{
-			"$gt": DateBeginning(date),
-			"$lt": DateEnd(date),
+			"$gte": DateBeginning(date),
+			"$lt":  DateEnd(date),
 		}},
 	}
 
