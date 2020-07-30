@@ -136,7 +136,7 @@ func GetAllMoistureData(uid string) []interface{} {
 	return slice
 }
 
-func GetSpecificDayChartData(uid string, deviceId int, beginningDate time.Time, endDate time.Time) []structs.DSData {
+func GetSpecificDayChartData(uid string, deviceId int, date time.Time) []structs.DSData {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -152,8 +152,8 @@ func GetSpecificDayChartData(uid string, deviceId int, beginningDate time.Time, 
 	filter := bson.D{
 		{"deviceId", deviceId},
 		{"dateTime", bson.M{
-			"$gt": DateBeginning(beginningDate),
-			"$lt": DateEnd(endDate),
+			"$gt": DateBeginning(date),
+			"$lt": DateEnd(date),
 		}},
 	}
 
