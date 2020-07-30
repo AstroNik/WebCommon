@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
+	"time"
 )
 
 func ConnectClient() *mongo.Client {
@@ -70,7 +71,7 @@ func GetUniqueDevices(uid string) []int32 {
 	return convertedIds
 }
 
-func GetAllMoistureData(uid string) []interface{} {
+func GetAllMoistureData(uid string) []interface{} { //TODO: ADD FOR CURRENT DATE
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -119,6 +120,62 @@ func GetAllMoistureData(uid string) []interface{} {
 	fmt.Printf("Found multiple documents: %+v\n", slice)
 
 	return slice
+}
+
+func DateBeginning(t time.Time) time.Time {
+	year, month, day := t.Date()
+	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
+}
+
+func DateEnd(t time.Time) time.Time {
+	year, month, day := t.Date()
+	return time.Date(year, month, day, 23, 59, 59, 999, t.Location())
+}
+
+func GetSpecificDayChartData(uid string, deviceId int) []structs.DSData {
+	client := ConnectClient()
+	col := client.Database(uid).Collection("Device")
+
+	var deviceData []structs.DSData
+
+	opts := options.Find().SetProjection(bson.D{
+		{"_id", 0},
+		{"deviceId", 1},
+		{"dateTime", 1},
+		{"soilMoisturePercent", 1},
+	})
+
+	filter := bson.D{
+		{"deviceId", deviceId},
+		{"dateTime", bson.M{
+			"$gt": DateBeginning(time.Now()),
+			"$lt": DateEnd(time.Now()),
+		}},
+	}
+
+	cur, err := col.Find(context.TODO(), filter, opts)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for cur.Next(context.TODO()) {
+		var data structs.DSData
+
+		err := cur.Decode(&data)
+		if err != nil {
+			log.Fatal(err)
+		}
+		deviceData = append(deviceData, data)
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	_ = cur.Close(context.TODO())
+
+	return deviceData
 }
 
 func InsertUser(user structs.NewUser) {
