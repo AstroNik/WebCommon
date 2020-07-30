@@ -179,6 +179,8 @@ func GetSpecificDayChartData(uid string, deviceId int, date time.Time) []structs
 
 	_ = cur.Close(context.TODO())
 
+	fmt.Printf("Found multiple documents: %+v\n", deviceData)
+
 	return deviceData
 }
 
