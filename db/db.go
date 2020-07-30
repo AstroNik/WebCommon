@@ -71,6 +71,16 @@ func GetUniqueDevices(uid string) []int32 {
 	return convertedIds
 }
 
+func DateBeginning(t time.Time) time.Time {
+	year, month, day := t.Date()
+	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
+}
+
+func DateEnd(t time.Time) time.Time {
+	year, month, day := t.Date()
+	return time.Date(year, month, day, 23, 59, 59, 999, t.Location())
+}
+
 func GetAllMoistureData(uid string) []interface{} { //TODO: ADD FOR CURRENT DATE
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
@@ -91,6 +101,10 @@ func GetAllMoistureData(uid string) []interface{} { //TODO: ADD FOR CURRENT DATE
 
 		filter := bson.D{
 			{"deviceId", deviceIds[i]},
+			{"dateTime", bson.M{
+				"$gt": DateBeginning(time.Now()),
+				"$lt": DateEnd(time.Now()),
+			}},
 		}
 
 		cur, err := col.Find(context.TODO(), filter, opts)
@@ -122,17 +136,7 @@ func GetAllMoistureData(uid string) []interface{} { //TODO: ADD FOR CURRENT DATE
 	return slice
 }
 
-func DateBeginning(t time.Time) time.Time {
-	year, month, day := t.Date()
-	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
-}
-
-func DateEnd(t time.Time) time.Time {
-	year, month, day := t.Date()
-	return time.Date(year, month, day, 23, 59, 59, 999, t.Location())
-}
-
-func GetSpecificDayChartData(uid string, deviceId int) []structs.DSData {
+func GetSpecificDayChartData(uid string, deviceId int, beginningDate time.Time, endDate time.Time) []structs.DSData {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -148,8 +152,8 @@ func GetSpecificDayChartData(uid string, deviceId int) []structs.DSData {
 	filter := bson.D{
 		{"deviceId", deviceId},
 		{"dateTime", bson.M{
-			"$gt": DateBeginning(time.Now()),
-			"$lt": DateEnd(time.Now()),
+			"$gt": DateBeginning(beginningDate),
+			"$lt": DateEnd(endDate),
 		}},
 	}
 
