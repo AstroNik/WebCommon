@@ -81,7 +81,7 @@ func DateEnd(t time.Time) time.Time {
 	return time.Date(year, month, day, 23, 59, 59, 999, t.Location())
 }
 
-func GetAllMoistureData(uid string) []interface{} { //TODO: ADD FOR CURRENT DATE
+func GetAllMoistureData(uid string) []interface{} {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
