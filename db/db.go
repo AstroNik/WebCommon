@@ -26,6 +26,7 @@ func RetrieveUserInfo(uid string) structs.UserRetrieval {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("User")
 	_ = col.FindOne(context.TODO(), bson.D{}).Decode(&user)
+	log.Print(user)
 	return user
 }
 
