@@ -21,15 +21,8 @@ func ConnectClient() *mongo.Client {
 	return client
 }
 
-type Fields struct {
-	UID       string
-	Email     string
-	FirstName string
-	LastName  string
-}
-
-func RetrieveUserInfo(uid string) Fields {
-	var user Fields
+func RetrieveUserInfo(uid string) structs.UserRetrieval {
+	var user structs.UserRetrieval
 	client := ConnectClient()
 	col := client.Database(uid).Collection("User")
 	_ = col.FindOne(context.TODO(), bson.D{}).Decode(&user)

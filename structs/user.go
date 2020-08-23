@@ -14,3 +14,10 @@ type NewUser struct {
 type User struct {
 	UID string `json:"uid" bson:"uid"`
 }
+
+type UserRetrieval struct {
+	UID       string
+	Email     string
+	FirstName string
+	LastName  string
+}
