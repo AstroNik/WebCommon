@@ -21,6 +21,21 @@ func ConnectClient() *mongo.Client {
 	return client
 }
 
+type Fields struct {
+	UID       string
+	Email     string
+	FirstName string
+	LastName  string
+}
+
+func RetrieveUserInfo(uid string) Fields {
+	var user Fields
+	client := ConnectClient()
+	col := client.Database(uid).Collection("User")
+	_ = col.FindOne(context.TODO(), bson.D{}).Decode(&user)
+	return user
+}
+
 func InsertMoistureData(uid string, sensor structs.Device) {
 	log.Println(uid)
 	log.Println("Device Data: ", sensor)
