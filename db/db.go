@@ -80,17 +80,17 @@ func GetUniqueDevices(uid string) []int32 {
 	return convertedIds
 }
 
-func DateBeginning(t time.Time) time.Time {
+func DateBeginning(t time.Time, location *time.Location) time.Time {
 	year, month, day := t.Date()
-	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
+	return time.Date(year, month, day, 0, 0, 0, 0, location)
 }
 
-func DateEnd(t time.Time) time.Time {
+func DateEnd(t time.Time, location *time.Location) time.Time {
 	year, month, day := t.Date()
-	return time.Date(year, month, day, 23, 59, 59, 999, t.Location())
+	return time.Date(year, month, day, 23, 59, 59, 999, location)
 }
 
-func GetAllMoistureData(uid string) []interface{} {
+func GetAllMoistureData(uid string, timezone string) []interface{} {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -108,11 +108,13 @@ func GetAllMoistureData(uid string) []interface{} {
 			{"soilMoisturePercent", 1},
 		})
 
+		loc, _ := time.LoadLocation(timezone)
+
 		filter := bson.D{
 			{"deviceId", deviceIds[i]},
 			{"dateTime", bson.M{
-				"$gte": DateBeginning(time.Now()),
-				"$lt":  DateEnd(time.Now()),
+				"$gte": DateBeginning(time.Now(), loc),
+				"$lt":  DateEnd(time.Now(), loc),
 			}},
 		}
 
