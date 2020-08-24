@@ -147,7 +147,7 @@ func GetAllMoistureData(uid string, timezone string) []interface{} {
 	return slice
 }
 
-func GetSpecificDayChartData(uid string, deviceId int, date time.Time) []structs.DSData {
+func GetSpecificDayChartData(uid string, deviceId int, date time.Time, timezone string) []structs.DSData {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
@@ -160,11 +160,13 @@ func GetSpecificDayChartData(uid string, deviceId int, date time.Time) []structs
 		{"soilMoisturePercent", 1},
 	})
 
+	loc, _ := time.LoadLocation(timezone)
+
 	filter := bson.D{
 		{"deviceId", deviceId},
 		{"dateTime", bson.M{
-			"$gte": DateBeginning(date),
-			"$lt":  DateEnd(date),
+			"$gte": DateBeginning(date, loc),
+			"$lt":  DateEnd(date, loc),
 		}},
 	}
 
