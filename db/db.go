@@ -118,9 +118,6 @@ func GetAllMoistureData(uid string, timezone string) []interface{} {
 			}},
 		}
 
-		log.Print(DateBeginning(time.Now(), loc))
-		log.Print(DateEnd(time.Now(), loc))
-
 		cur, err := col.Find(context.TODO(), filter, opts)
 
 		if err != nil {
