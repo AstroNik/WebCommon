@@ -26,21 +26,34 @@ func GetPlantData(plantName string) structs.Plant {
 }
 
 func GetAllPlantData() []structs.Plant {
+	var plantData []structs.Plant
 
-	return []structs.Plant{}
-}
-
-func Test() {
-	log.Println("Connection To Client")
 	client := ConnectClient()
+	col := client.Database("Plant").Collection("Plants")
 
-	result, err := client.Database("Plant").ListCollectionNames(context.TODO(), bson.D{})
+	cur, err := col.Find(context.TODO(), bson.D{})
+
 	if err != nil {
+		log.Printf("error decoding GetAallPlantData %+v", err)
+	}
+
+	for cur.Next(context.TODO()) {
+		var data structs.Plant
+
+		err := cur.Decode(&data)
+		if err != nil {
+			log.Fatal(err)
+		}
+		plantData = append(plantData, data)
+	}
+
+	if err := cur.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	for _, coll := range result {
-		log.Println(coll)
-		log.Println("Hello")
-	}
+	_ = cur.Close(context.TODO())
+
+	log.Printf("Plant Data %+v", plantData)
+
+	return plantData
 }
