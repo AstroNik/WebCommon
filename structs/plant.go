@@ -6,11 +6,11 @@ import (
 
 type Plant struct {
 	ID            primitive.ObjectID `bson:"_id,omitempty"`
-	BotanicalName string             `json:"botanicalName" bson:"botanicalName"` //Ex. Epipremnum aureum
-	CommonName    string             `json:"commonName" bson:"commonName"`       //Ex. Golden pothos, silver vine, taro vine
-	PlantType     string             `json:"plantType" bson:"plantType"`         //Ex. Trailing Vine
-	MatureSize    string             `json:"matureSize" bson:"matureSize"`       // Facts about plants
-	Care          Care               `json:"care" bson:"care"`
+	BotanicalName string             `json:"botanicalName" bson:"BotanicalName"` //Ex. Epipremnum aureum
+	CommonName    string             `json:"commonName" bson:"CommonName"`       //Ex. Golden pothos, silver vine, taro vine
+	PlantType     string             `json:"plantType" bson:"PlantType"`         //Ex. Trailing Vine
+	MatureSize    string             `json:"matureSize" bson:"MatureSize"`       // Facts about plants
+	Care          Care               `json:"care" bson:"Care"`
 }
 
 type Care struct {
