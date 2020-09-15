@@ -29,3 +29,18 @@ func GetAllPlantData() []structs.Plant {
 
 	return []structs.Plant{}
 }
+
+func Test() {
+	log.Println("Connection To Client")
+	client := ConnectClient()
+
+	result, err := client.Database("Plant").ListCollectionNames(context.TODO(), bson.D{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, coll := range result {
+		log.Println(coll)
+		log.Println("Hello")
+	}
+}
