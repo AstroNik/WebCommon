@@ -2,12 +2,10 @@ package structs
 
 import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"image"
 )
 
 type Plant struct {
 	ID            primitive.ObjectID `bson:"_id,omitempty"`
-	PlantImage    image.Image        `json:"plantImage" bson:"plantImage"`       //Image of plant
 	BotanicalName string             `json:"botanicalName" bson:"botanicalName"` //Ex. Epipremnum aureum
 	CommonName    string             `json:"commonName" bson:"commonName"`       //Ex. Golden pothos, silver vine, taro vine
 	PlantType     string             `json:"plantType" bson:"plantType"`         //Ex. Trailing Vine
