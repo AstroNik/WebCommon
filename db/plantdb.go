@@ -25,8 +25,8 @@ func GetPlantData(plantName string) structs.Plant {
 	return plantData
 }
 
-func GetAllPlantData() []interface{} {
-	var slice = make([]interface{}, 0)
+func GetAllPlantData() []structs.Plant {
+	var plantData []structs.Plant
 
 	client := ConnectClient()
 	col := client.Database("Plant").Collection("Plants")
@@ -44,16 +44,17 @@ func GetAllPlantData() []interface{} {
 		if err != nil {
 			log.Fatal(err)
 		}
-		slice = append(slice, data)
+		log.Print(data)
+		plantData = append(plantData, data)
 	}
 
 	if err := cur.Err(); err != nil {
-		log.Printf("error decoding GetAallPlantData %+v", err)
+		log.Fatal(err)
 	}
 
 	_ = cur.Close(context.TODO())
 
-	log.Printf("Plant Data %+v", slice)
+	//log.Printf("Plant Data %+v", plantData)
 
-	return slice
+	return plantData
 }
