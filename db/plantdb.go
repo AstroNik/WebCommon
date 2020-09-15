@@ -31,7 +31,7 @@ func GetAllPlantData() []structs.Plant {
 	client := ConnectClient()
 	col := client.Database("Plant").Collection("Plants")
 
-	cur, err := col.Find(context.TODO(), bson.D{})
+	cur, err := col.Find(context.TODO(), structs.Plant{})
 
 	if err != nil {
 		log.Printf("error decoding GetAallPlantData %+v", err)
