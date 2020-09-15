@@ -44,7 +44,7 @@ func GetAllPlantData() []structs.Plant {
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Print(data)
+		//log.Print(data)
 		plantData = append(plantData, data)
 	}
 
@@ -54,7 +54,7 @@ func GetAllPlantData() []structs.Plant {
 
 	_ = cur.Close(context.TODO())
 
-	//log.Printf("Plant Data %+v", plantData)
+	log.Println(plantData)
 
 	return plantData
 }
