@@ -10,7 +10,7 @@ type Plant struct {
 	CommonName    string             `json:"commonName" bson:"commonName"`       //Ex. Golden pothos, silver vine, taro vine
 	PlantType     string             `json:"plantType" bson:"plantType"`         //Ex. Trailing Vine
 	MatureSize    string             `json:"matureSize" bson:"matureSize"`       // Facts about plants
-	Care          Care               `json:"growthInfo" bson:"growthInfo"`
+	Care          Care               `json:"care" bson:"care"`
 }
 
 type Care struct {
