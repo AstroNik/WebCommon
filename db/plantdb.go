@@ -54,7 +54,7 @@ func GetAllPlantData() []structs.Plant {
 
 	_ = cur.Close(context.TODO())
 
-	log.Println(plantData)
+	log.Println(plantData[0].Care)
 
 	return plantData
 }
