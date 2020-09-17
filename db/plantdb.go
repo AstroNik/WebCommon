@@ -13,9 +13,7 @@ func GetPlantData(plantName string) structs.Plant {
 	col := client.Database("Plant").Collection(plantName)
 
 	filter := bson.D{
-		{
-			"commonName", plantName,
-		},
+		{"commonName", plantName},
 	}
 
 	var plantData structs.Plant
