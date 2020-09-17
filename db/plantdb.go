@@ -10,7 +10,7 @@ import (
 func GetPlantData(plantName string) structs.Plant {
 	log.Printf("Finding Data on: %+v", plantName)
 	client := ConnectClient()
-	col := client.Database("Plant").Collection(plantName)
+	col := client.Database("Plant").Collection("Plants")
 
 	filter := bson.D{
 		{"commonName", plantName},
@@ -32,7 +32,7 @@ func GetAllPlantData() []structs.Plant {
 	cur, err := col.Find(context.TODO(), bson.D{})
 
 	if err != nil {
-		log.Printf("error decoding GetAallPlantData %+v", err)
+		log.Printf("error decoding GetAllPlantData %+v", err)
 	}
 
 	for cur.Next(context.TODO()) {
