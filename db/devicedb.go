@@ -26,14 +26,14 @@ func GetMoistureData(uid string) []structs.Device {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Device")
 
-	options := options.FindOne()
-	options.SetSort(bson.D{{"_id", -1}})
+	option := options.FindOne()
+	option.SetSort(bson.D{{"_id", -1}})
 
 	deviceIds := GetUniqueDevices(uid)
 
 	for i := range deviceIds {
 		tempData := structs.Device{}
-		_ = col.FindOne(context.TODO(), bson.D{{"deviceId", deviceIds[i]}}, options).Decode(&tempData)
+		_ = col.FindOne(context.TODO(), bson.D{{"deviceId", deviceIds[i]}}, option).Decode(&tempData)
 		deviceData = append(deviceData, tempData)
 	}
 
