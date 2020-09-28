@@ -1,6 +1,9 @@
 package structs
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go/types"
+)
 
 type NewUser struct {
 	ID        primitive.ObjectID `bson:"_id,omitempty"`
@@ -9,7 +12,7 @@ type NewUser struct {
 	FirstName string             `json:"firstName" bson:"firstName"`
 	LastName  string             `json:"LastName" bson:"lastName"`
 	Token     string             `json:"token" bson:"token"`
-	Devices   interface{}        `json:"devices" bson:"devices"`
+	Devices   types.Array        `json:"devices" bson:"devices"`
 }
 
 type User struct {
@@ -21,5 +24,5 @@ type UserRetrieval struct {
 	Email     string      `json:"email" bson:"email"`
 	FirstName string      `json:"firstName" bson:"firstName"`
 	LastName  string      `json:"LastName" bson:"lastName"`
-	Devices   interface{} `json:"devices" bson:"devices"`
+	Devices   types.Array `json:"devices" bson:"devices"`
 }
