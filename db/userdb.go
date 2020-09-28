@@ -38,12 +38,13 @@ func AddDeviceToProfile(uid string, deviceId int, deviceName string) {
 	filter := bson.M{"uid": uid}
 
 	update := bson.M{
-		"$push": bson.M{"Devices": bson.M{idString: deviceName}},
+		"$set": bson.M{"Devices": bson.M{idString: deviceName}},
 	}
 
 	option := options.FindOneAndUpdate()
 
 	_ = col.FindOneAndUpdate(context.TODO(), filter, update, option)
 
+	log.Print("Device Added")
 	_ = client.Disconnect(context.TODO())
 }
