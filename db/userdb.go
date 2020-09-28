@@ -5,6 +5,7 @@ import (
 	"github.com/AstroNik/WebCommon/structs"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
+	"strconv"
 )
 
 func InsertUser(user structs.NewUser) {
@@ -23,4 +24,23 @@ func RetrieveUserInfo(uid string) structs.UserRetrieval {
 	_ = col.FindOne(context.TODO(), bson.D{}).Decode(&user)
 	log.Print(user)
 	return user
+}
+
+func AddDeviceToProfile(uid string, deviceId int, deviceName string) {
+	client := ConnectClient()
+	col := client.Database(uid).Collection("User")
+
+	idString := strconv.Itoa(deviceId)
+
+	filter := bson.M{"uid": uid}
+
+	update := bson.M{
+		"$set": bson.M{"Devices": bson.M{idString: deviceName}},
+	}
+	//option := options.FindOneAndUpdate()
+
+	err := col.FindOneAndUpdate(context.TODO(), filter, update)
+	if err != nil {
+		log.Println("Cannot insert document ERROR: ", err)
+	}
 }

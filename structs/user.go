@@ -9,6 +9,7 @@ type NewUser struct {
 	FirstName string             `json:"firstName" bson:"firstName"`
 	LastName  string             `json:"LastName" bson:"lastName"`
 	Token     string             `json:"token" bson:"token"`
+	Devices   interface{}        `json:"devices" bson:"devices"`
 }
 
 type User struct {
@@ -16,8 +17,9 @@ type User struct {
 }
 
 type UserRetrieval struct {
-	UID       string
-	Email     string
-	FirstName string
-	LastName  string
+	UID       string      `json:"uid" bson:"uid"`
+	Email     string      `json:"email" bson:"email"`
+	FirstName string      `json:"firstName" bson:"firstName"`
+	LastName  string      `json:"LastName" bson:"lastName"`
+	Devices   interface{} `json:"devices" bson:"devices"`
 }
