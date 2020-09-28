@@ -8,7 +8,6 @@ import (
 type Device struct {
 	ID                  primitive.ObjectID `bson:"_id,omitempty"`
 	DeviceID            int                `json:"deviceId" bson:"deviceId"`
-	DeviceName          string             `json:"deviceName" bson:"deviceName"`
 	Battery             int                `json:"battery" bson:"battery"`
 	DateTime            time.Time          `bson:"dateTime" json:"dateTime"`
 	AirValue            int                `bson:"airValue" json:"airValue"`
