@@ -19,7 +19,7 @@ func GetPlantData(plantName string) structs.Plant {
 	var plantData structs.Plant
 
 	_ = col.FindOne(context.TODO(), filter).Decode(&plantData)
-
+	_ = client.Disconnect(context.TODO())
 	return plantData
 }
 
@@ -52,6 +52,6 @@ func GetAllPlantData() []structs.Plant {
 	_ = cur.Close(context.TODO())
 
 	log.Println(plantData)
-
+	_ = client.Disconnect(context.TODO())
 	return plantData
 }

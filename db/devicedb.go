@@ -19,6 +19,7 @@ func InsertMoistureData(uid string, sensor structs.Device) {
 	if err != nil {
 		log.Println("Cannot insert document ERROR: ", err)
 	}
+	_ = client.Disconnect(context.TODO())
 }
 
 func GetMoistureData(uid string) []structs.Device {
@@ -36,7 +37,7 @@ func GetMoistureData(uid string) []structs.Device {
 		_ = col.FindOne(context.TODO(), bson.D{{"deviceId", deviceIds[i]}}, option).Decode(&tempData)
 		deviceData = append(deviceData, tempData)
 	}
-
+	_ = client.Disconnect(context.TODO())
 	log.Printf("Document Found %+v\n", deviceData)
 	return deviceData
 }
@@ -56,7 +57,7 @@ func GetUniqueDevices(uid string) []int32 {
 	for i := range deviceIds {
 		convertedIds[i] = deviceIds[i].(int32)
 	}
-
+	_ = client.Disconnect(context.TODO())
 	return convertedIds
 }
 
@@ -113,7 +114,7 @@ func GetAllMoistureData(uid string, timezone string) []interface{} {
 	}
 
 	fmt.Printf("Found multiple documents: %+v\n", slice)
-
+	_ = client.Disconnect(context.TODO())
 	return slice
 }
 
@@ -163,6 +164,6 @@ func GetSpecificDayChartData(uid string, deviceId int, date time.Time, timezone 
 	_ = cur.Close(context.TODO())
 
 	fmt.Printf("Found multiple documents: %+v\n", deviceData)
-
+	_ = client.Disconnect(context.TODO())
 	return deviceData
 }
