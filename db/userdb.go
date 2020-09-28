@@ -38,7 +38,7 @@ func AddDeviceToProfile(uid string, deviceId int, deviceName string) {
 	filter := bson.M{"uid": uid}
 
 	update := bson.M{
-		"$set": bson.M{"Devices": bson.M{idString: deviceName}},
+		"$addFields": bson.M{"Devices": bson.M{idString: deviceName}},
 	}
 
 	option := options.FindOneAndUpdate()
