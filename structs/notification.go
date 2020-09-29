@@ -1,7 +1,14 @@
 package structs
 
-type FCMMessage struct {
-	To           string      `json:"to" bson:"to"`
-	Registration []string    `json:"registration _ids,omitempty" bson:"registration _ids,omitempty"`
-	Data         interface{} `json:"data,omitempty" bson:"data,omitempty"`
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
+)
+
+type Notification struct {
+	ID       primitive.ObjectID `bson:"_id,omitempty"`
+	DateTime time.Time          `json:"dateTime" bson:"dateTime"`
+	Title    string             `json:"title" bson:"title"`
+	Content  string             `json:"content" bson:"content"`
+	IsRead   bool               `json:"isRead" bson:"isRead"`
 }
