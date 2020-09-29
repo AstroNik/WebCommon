@@ -1,5 +1,11 @@
 package structs
 
+/*
+Code Written By
+Nikhil Kapadia
+991495131
+*/
+
 import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
