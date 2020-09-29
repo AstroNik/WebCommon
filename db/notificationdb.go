@@ -20,7 +20,7 @@ func PushNotification(uid string, notification structs.Notification) {
 	col := client.Database(uid).Collection("Notifications")
 	_, err := col.InsertOne(context.TODO(), notification)
 	if err != nil {
-		log.Println("Cannot insert document ERROR: ", err)
+		log.Println("Cannot insert Notification ERROR: ", err)
 	}
 	_ = client.Disconnect(context.TODO())
 }
@@ -53,7 +53,21 @@ func GetNotifications(uid string) []structs.Notification {
 
 	_ = cur.Close(context.TODO())
 
-	fmt.Printf("Found multiple documents: %+v\n", notifs)
+	fmt.Printf("Found multiple Notification Documents: %+v\n", notifs)
 	_ = client.Disconnect(context.TODO())
 	return notifs
+}
+
+func UpdateNotification(uid string, notifId int) {
+	client := ConnectClient()
+	col := client.Database(uid).Collection("Notifications")
+
+	filter := bson.M{"notificationId": notifId}
+
+	update := bson.M{"$set": bson.M{"isRead": true}}
+
+	_ = col.FindOneAndUpdate(context.TODO(), filter, update)
+
+	log.Print("Notification Updated")
+	_ = client.Disconnect(context.TODO())
 }
