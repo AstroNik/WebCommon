@@ -52,3 +52,26 @@ func AddDeviceToProfile(uid string, deviceId int, deviceName string) {
 	log.Print("Device Added")
 	_ = client.Disconnect(context.TODO())
 }
+
+func UpdateUserData(user structs.UserRetrieval) {
+	client := ConnectClient()
+	col := client.Database(user.UID).Collection("User")
+
+	filter := bson.M{"uid": user.UID}
+
+	update := bson.M{
+		"$set": bson.M{
+			"email":     user.Email,
+			"firstName": user.FirstName,
+			"lastName":  user.LastName,
+		},
+	}
+
+	option := options.FindOneAndUpdate()
+
+	_ = col.FindOneAndUpdate(context.TODO(), filter, update, option)
+
+	log.Print("User Data Updated")
+
+	_ = client.Disconnect(context.TODO())
+}
