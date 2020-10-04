@@ -75,3 +75,21 @@ func UpdateUserData(user structs.UserRetrieval) {
 
 	_ = client.Disconnect(context.TODO())
 }
+
+func UpdateDeviceName(uid string, deviceId int, deviceName string) {
+	client := ConnectClient()
+	col := client.Database(uid).Collection("User")
+
+	idString := strconv.Itoa(deviceId)
+
+	filter := bson.M{"uid": uid}
+
+	update := bson.M{"$set": bson.M{"devices." + idString: deviceName}}
+
+	option := options.FindOneAndUpdate()
+
+	_ = col.FindOneAndUpdate(context.TODO(), filter, update, option)
+
+	log.Print("Device Name Updated")
+	_ = client.Disconnect(context.TODO())
+}
