@@ -7,8 +7,8 @@ import (
 
 type Device struct {
 	ID                  primitive.ObjectID `bson:"_id,omitempty"`
-	DeviceID            int                `json:"deviceId" bson:"deviceId"`
-	Battery             int                `json:"battery" bson:"battery"`
+	DeviceID            int                `bson:"deviceId" json:"deviceId"`
+	Battery             int                `bson:"battery" json:"battery"`
 	DateTime            time.Time          `bson:"dateTime" json:"dateTime"`
 	AirValue            int                `bson:"airValue" json:"airValue"`
 	WaterValue          int                `bson:"waterValue" json:"waterValue"`
@@ -18,8 +18,8 @@ type Device struct {
 
 type DeviceData struct {
 	UID                 string `bson:"uid" json:"uid"`
-	DeviceID            int    `bson:"deviceId" json:"deviceId"`
-	Battery             int    `json:"battery" bson:"battery"`
+	DeviceID            string `bson:"deviceId" json:"deviceId"`
+	Battery             int    `bson:"battery" json:"battery"`
 	AirValue            int    `bson:"airValue" json:"airValue"`
 	WaterValue          int    `bson:"waterValue" json:"waterValue"`
 	SoilMoistureValue   int    `bson:"soilMoistureValue" json:"soilMoistureValue"`
