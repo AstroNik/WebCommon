@@ -44,7 +44,12 @@ func GetNotifications(uid string) []structs.Notification {
 
 		tempData := structs.Notification{}
 		_ = col.FindOne(context.TODO(), filter, option).Decode(&tempData)
-		notifs = append(notifs, tempData)
+		if tempData.DeviceID == 0 {
+
+		} else {
+			notifs = append(notifs, tempData)
+		}
+
 	}
 
 	fmt.Printf("Found multiple Notification Documents: %+v\n", notifs)
