@@ -54,15 +54,18 @@ func GetNotifications(uid string) []structs.Notification {
 	return notifs
 }
 
-func UpdateNotification(uid string, notifId int) {
+func UpdateNotification(uid string, devId int) {
 	client := ConnectClient()
 	col := client.Database(uid).Collection("Notifications")
 
-	filter := bson.M{"notificationId": notifId}
+	filter := bson.D{
+		{"deviceId", devId},
+		{"isRead", false},
+	}
 
 	update := bson.M{"$set": bson.M{"isRead": true}}
 
-	_ = col.FindOneAndUpdate(context.TODO(), filter, update)
+	_, _ = col.UpdateMany(context.TODO(), filter, update)
 
 	log.Print("Notification Updated")
 	_ = client.Disconnect(context.TODO())
