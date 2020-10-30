@@ -48,23 +48,26 @@ func GetMoistureData(uid string) []structs.Device {
 	return deviceData
 }
 
-func GetUniqueDevices(uid string) []int32 {
+func GetUniqueDevices(uid string) []int {
+	type Data struct {
+		Devices map[int]interface{} `json:"devices" bson:"devices"`
+	}
+
 	client := ConnectClient()
-	col := client.Database(uid).Collection("Device")
+	col := client.Database(uid).Collection("User")
 
-	deviceIds, err := col.Distinct(context.TODO(), "deviceId", bson.D{{}})
+	var deviceIds Data
 
-	if err != nil {
-		log.Println("Error decoding data ERROR: ", err)
+	_ = col.FindOne(context.TODO(), bson.D{}).Decode(&deviceIds)
+
+	var ids []int
+
+	for key, _ := range deviceIds.Devices {
+		ids = append(ids, key)
 	}
 
-	convertedIds := make([]int32, len(deviceIds))
-
-	for i := range deviceIds {
-		convertedIds[i] = deviceIds[i].(int32)
-	}
 	_ = client.Disconnect(context.TODO())
-	return convertedIds
+	return ids
 }
 
 func GetAllMoistureData(uid string, timezone string) []interface{} {
