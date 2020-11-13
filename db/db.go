@@ -16,7 +16,7 @@ import (
 
 func ConnectClient() *mongo.Client {
 	//TODO: replace pass/user with env var
-	clientOption := options.Client().ApplyURI("mongodb+srv://devTeam:ecoders4@cluster0-grjmu.azure.mongodb.net/admin")
+	clientOption := options.Client().ApplyURI("mongodb+srv://username:pass@cluster0-grjmu.azure.mongodb.net/admin")
 	client, err := mongo.Connect(context.TODO(), clientOption)
 	if err != nil {
 		log.Println("mongo.Connect() ERROR: ", err)
